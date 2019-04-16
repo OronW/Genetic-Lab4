@@ -23,6 +23,7 @@ void testfunc(string &s) {
 
 int main()
 {
+#ORON LETS START THIS FUCKING SHIT
 	srand(unsigned(time(NULL)));
 	
 	clock_t startElapsed;
