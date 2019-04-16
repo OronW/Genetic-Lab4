@@ -256,7 +256,7 @@ void initAllPop(ga_vector &all_pop, ga_vector &buffer)
 		citizen.str.erase();
 
 		for (int j = 0; j<tsize; j++)
-			citizen.str += (rand() % 90) + 32;
+			citizen.str += (rand() % 95) + 32;
 
 		all_pop.push_back(citizen);
 	}

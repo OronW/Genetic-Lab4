@@ -188,7 +188,7 @@ int getMinRatioIndex(sackStruct &sack, itemVector &items) {
 
 
 void mutateSack(sackStruct &sack, itemVector &items) {
-	int N = sack.items.size();
+	int N = sack.items.size();{
 		int worse_item_id = getMaxRatioIndex(sack, items);
 		int best_item_id = getMinRatioIndex(sack, items);
 		sack.items[worse_item_id] = '0';

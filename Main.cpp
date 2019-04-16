@@ -17,13 +17,8 @@ int main(int argc, char* argv[])
 #include <ctime>
 
 
-void testfunc(string &s) {
-	s += "OSNGHKNAS";
-}
-
 int main()
 {
-#ORON LETS START THIS FUCKING SHIT
 	srand(unsigned(time(NULL)));
 	
 	clock_t startElapsed;
