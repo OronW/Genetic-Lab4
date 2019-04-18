@@ -8,6 +8,7 @@
 #define MUTATION_RATE	0.25f		
 #define MUTATION			RAND_MAX * MUTATION_RATE
 #define MAXK				20
+#define VAR_THRESHOLD	50
 
 
 
@@ -241,6 +242,62 @@ string smartXbreed(string source1, string source2, int fitness1, int fitness2) {
 	}
 
 	return result;
+}
+
+int getGenDist(ga_struct & first, ga_struct & second)
+{
+	string target = TARGET;
+	int tsize = target.size();
+	string str1 = first.str;
+	string str2 = second.str;
+	int i = 0, count = 0;
+	while (i< tsize) {
+		if (str1[i] != str2[i]) {
+			count++;
+		}
+		i++;
+	}
+	return count;
+}
+
+float getAverage(ga_vector & all_pop)
+{
+	float average = 0.0f;
+	for ( int i = 0 ; i < GA_POPSIZE ; i++ ) {
+		average += all_pop[i].fitness;
+	}
+	average = average / GA_POPSIZE;
+	return average;
+}
+
+float getVariance(ga_vector &all_pop)
+{
+	float average = getAverage();
+	float variance = 0.0f;
+	for (int i = 0; i < GA_POPSIZE; i++) {
+		variance += (all_pop[i].fitness - average)*(all_pop[i].fitness - average);
+	}
+	variance = variance / GA_POPSIZE;
+	return variance;
+}
+
+float getPopulationDist(ga_vector & all_pop)
+{
+	float pop_dist = 0.0f;
+	for (int i = 0; i < GA_POPSIZE; i++) {
+		for (int j = i+1; j < GA_POPSIZE; j++) {
+			pop_dist += getGenDist(all_pop[i], all_pop[j]);
+		}
+	}
+	pop_dist = pop_dist / (GA_POPSIZE * GA_POPSIZE);
+		return pop_dist;
+}
+
+float catchLocalOptima(ga_vector & all_pop)
+{
+	//what are the limits with the variance and the diference
+	//and whats the difference for god sake?!
+	return 0.0f;
 }
 
 
