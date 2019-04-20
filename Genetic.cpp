@@ -8,8 +8,11 @@
 #define MUTATION_RATE	0.25f		
 #define MUTATION			RAND_MAX * MUTATION_RATE
 #define MAXK				20
-#define VAR_THRESHOLD	50
-
+#define LOST	8
+#define SHIMSHON 0.5
+#define YOVAV 1
+int Scount;
+int Ycount;
 
 
 vector<double> avg_fitness;
@@ -272,7 +275,7 @@ float getAverage(ga_vector & all_pop)
 
 float getVariance(ga_vector &all_pop)
 {
-	float average = getAverage();
+	float average = getAverage(all_pop);
 	float variance = 0.0f;
 	for (int i = 0; i < GA_POPSIZE; i++) {
 		variance += (all_pop[i].fitness - average)*(all_pop[i].fitness - average);
@@ -293,11 +296,27 @@ float getPopulationDist(ga_vector & all_pop)
 		return pop_dist;
 }
 
-float catchLocalOptima(ga_vector & all_pop)
+int catchLocalOptima(ga_vector & all_pop)
 {
-	//what are the limits with the variance and the diference
-	//and whats the difference for god sake?!
-	return 0.0f;
+	float res = getVariance(all_pop);
+	cout << "-D- var indicator :\n" << res << "\n" << endl;
+	if (res < SHIMSHON) {
+		if (Scount == 0) {
+			cout << "-E- LOCAL OPTIMA SIGNAL DETECTED (by vatiance)" << endl;
+			return 1;
+		}
+		--Scount;
+	}
+	//res = getPopulationDist(all_pop);
+	//cout << "-D- Dist indicator :\n" << res << "\n" << endl;
+	//if (res < YOVAV) {
+	//	if (Ycount == 0) {
+	//		cout << "-E- LOCAL OPTIMA SIGNAL DETECTED (by stupid hamming distance)" << endl;
+	//		return 1;
+	//	}
+	//	--Ycount;
+	//}
+	return 0;
 }
 
 
@@ -446,13 +465,14 @@ bool solveUsingGen(int N, int itr, int h, int cross_type, double mutation_rate, 
 	bool success = false;
 	ga_vector pop_alpha, pop_beta;
 	ga_vector *all_pop, *buffer;
+	Scount = 5;
+	Ycount = 5;
 
 	initAllPop(pop_alpha, pop_beta);
 	all_pop = &pop_alpha;
 	buffer = &pop_beta;
-
 	for (int i = 0; i<itr; i++) {
-
+		cout << "-D- iteration number " << i << endl;
 		if (h==1)
 			calcFit(*all_pop);
 		else if (h==2)
@@ -473,6 +493,12 @@ bool solveUsingGen(int N, int itr, int h, int cross_type, double mutation_rate, 
 			cout << "time data:" << endl;
 			break;
 		}
+		if ((*all_pop)[0].fitness < LOST) {
+			if (catchLocalOptima(*all_pop)) {
+				break;
+			}
+		}
+
 
 		if (selection_type==1)
 			mate(*all_pop, *buffer, cross_type, mutation_rate);		// mate the all_pop together

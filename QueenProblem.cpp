@@ -2,8 +2,14 @@
 
 
 #define BOARDS		1000
-#define ELITE 0.2f
+#define ELITE 0.1f
 #define MUTATION_FOR_QUEEN 20		// mutation rate
+#define LOST	3
+#define QSHIMSHON 0.2
+#define QYOVAV 2
+
+int QScount;
+int QYcount;
 
 
 bool MinFitness(QS x, QS y) {
@@ -256,6 +262,8 @@ bool solveQueensProb(int N, int itr, int cross_type, int mutate_type) {
 	double time;
 	bool success = false;
 	int i;
+	QScount=5;
+	QYcount=5;
 
 	clock_t start = clock();
 
@@ -274,6 +282,12 @@ bool solveQueensProb(int N, int itr, int cross_type, int mutate_type) {
 			break;
 		}
 
+		//if ((Boards)[0].fitness < LOST) {
+		//	if (catchLocalOptima(Boards,N)) {
+		//		break;
+		//	}
+		//}
+
 		//Problem not solved.
 		BoardMating(Boards, buffer, ELITE, cross_type, mutate_type);
 
@@ -287,7 +301,7 @@ bool solveQueensProb(int N, int itr, int cross_type, int mutate_type) {
 		cout << "Failure!" << endl;
 	}
 
-	//cout << "****Statistics for N=" << N << " Queens Problem****" << endl;
+	cout << "****Statistics for N=" << N << " Queens Problem****" << endl;
 	cout << "Total Time: " << time << endl;
 	cout << "Total CPU ticks: " << ticks << endl;
 	cout << "Total iterations: " << i << endl;
@@ -338,4 +352,77 @@ bool solveQueensConflict(int N, int itr) {
 	printboard(board, false);
 
 	return success;
+}
+
+int getBoardsDist(QS & first, QS & second, int N)
+{
+	string str1 = first.str;
+	string str2 = second.str;
+	int i = 0, count = 0;
+	while (i < N) {
+		if (str1[i] != str2[i]) {
+			count++;
+		}
+		i++;
+	}
+	return count;
+}
+
+float getAverage(QSVector & boards, int N)
+{
+	float average = 0.0f;
+	for (int i = 0; i < N; i++) {
+		average += boards[i].fitness;
+	}
+	average = average / N;
+	return average;
+}
+
+float getVariance(QSVector & boards, int N)
+{
+	float average = getAverage(boards,N);
+	float variance = 0.0f;
+	for (int i = 0; i < N; i++) {
+		variance += (boards[i].fitness - average)*(boards[i].fitness - average);
+	}
+	variance = variance / N;
+	return variance;
+}
+
+float getPopulationDist(QSVector & boards, int N)
+{
+	float pop_dist = 0.0f;
+	for (int i = 0; i < N; i++) {
+		for (int j = i + 1; j < N; j++) {
+			pop_dist += getBoardsDist(boards[i], boards[j],N);
+		}
+	}
+	pop_dist = pop_dist / (N * N);
+	return pop_dist;
+}
+
+float catchLocalOptima(QSVector & boards, int N)
+{
+	float res = getVariance(boards, N);
+	cout << "-D- var indicator :\n" << res << "\n" << endl;
+	cout << "ahello " << QScount << " - " << QSHIMSHON << endl;
+	if (res < QSHIMSHON) {
+		cout << "hello " << QScount<<" - " << QSHIMSHON << endl;
+		if (QScount == 0) {
+			cout << "-E- LOCAL OPTIMA SIGNAL DETECTED (by variance)" << endl;
+			return 1;
+		}
+		--QScount;
+	}
+	res = getPopulationDist(boards, N);
+	cout << "-D- Dist indicator :\n" << res << "\n" << endl;
+	if (res < QYOVAV) {
+		cout << "bhello " << QYcount << " - " << QYOVAV << endl;
+		if (QYcount == 0) {
+			cout << "-E- LOCAL OPTIMA SIGNAL DETECTED (by stupid hamming distance)" << endl;
+			return 1;
+		}
+		--QYcount;
+	}
+	return 0.0f;
 }

@@ -9,6 +9,8 @@
 #include <algorithm>				
 #include <time.h>					
 #include <math.h>					
+#include <stdlib.h>
+#include <bitset>
 
 using namespace std;
 
@@ -56,5 +58,4 @@ int getGenDist(ga_struct &first, ga_struct &second);
 float getAverage(ga_vector &all_pop);
 float getVariance(ga_vector &all_pop);
 float getPopulationDist(ga_vector &all_pop);
-float catchLocalOptima(ga_vector &all_pop);
-
+int catchLocalOptima(ga_vector &all_pop);

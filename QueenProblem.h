@@ -44,3 +44,8 @@ void bestBoardPrint(QSVector &Boards);
 void minimumConflicts(QS &board, int ind);
 int checkConflictedQueen(QS &board);
 bool solveQueensConflict(int N, int itr);
+int getBoardsDist(QS &first, QS &second, int N);
+float getAverage(QSVector &boards, int N);
+float getVariance(QSVector &boards, int N);
+float getPopulationDist(QSVector &boards, int N);
+float catchLocalOptima(QSVector &boards, int N);
