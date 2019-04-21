@@ -56,3 +56,8 @@ bool solveSack(int problem, int itr, int cross_type = 1);
 void sack2str(sackStruct &sack, string &output);
 int getMaxRatioIndex(sackStruct &sack, itemVector &items);
 int getMinRatioIndex(sackStruct &sack, itemVector &items);
+int getSckDist(sackStruct &first, sackStruct &second);
+int getAverage(sackVector &population);
+double getVariance(sackVector &population);
+double getPopulationDist(sackVector &population);
+int catchLocalOptima(sackVector &population, int opt);

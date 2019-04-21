@@ -4,7 +4,7 @@
 #define BOARDS		1000
 #define ELITE 0.1f
 #define MUTATION_FOR_QUEEN 20		// mutation rate
-#define LOST	3
+#define QLOST	3
 #define QSHIMSHON 0.2
 #define QYOVAV 2
 
@@ -282,7 +282,7 @@ bool solveQueensProb(int N, int itr, int cross_type, int mutate_type) {
 			break;
 		}
 
-		//if ((Boards)[0].fitness < LOST) {
+		//if ((Boards)[0].fitness < QLOST) {
 		//	if (catchLocalOptima(Boards,N)) {
 		//		break;
 		//	}
@@ -368,9 +368,9 @@ int getBoardsDist(QS & first, QS & second, int N)
 	return count;
 }
 
-float getAverage(QSVector & boards, int N)
+double getAverage(QSVector & boards, int N)
 {
-	float average = 0.0f;
+	double average = 0.0;
 	for (int i = 0; i < N; i++) {
 		average += boards[i].fitness;
 	}
@@ -378,10 +378,10 @@ float getAverage(QSVector & boards, int N)
 	return average;
 }
 
-float getVariance(QSVector & boards, int N)
+double getVariance(QSVector & boards, int N)
 {
-	float average = getAverage(boards,N);
-	float variance = 0.0f;
+	double average = getAverage(boards,N);
+	double variance = 0.0;
 	for (int i = 0; i < N; i++) {
 		variance += (boards[i].fitness - average)*(boards[i].fitness - average);
 	}
@@ -389,9 +389,9 @@ float getVariance(QSVector & boards, int N)
 	return variance;
 }
 
-float getPopulationDist(QSVector & boards, int N)
+double getPopulationDist(QSVector & boards, int N)
 {
-	float pop_dist = 0.0f;
+	double pop_dist = 0.0;
 	for (int i = 0; i < N; i++) {
 		for (int j = i + 1; j < N; j++) {
 			pop_dist += getBoardsDist(boards[i], boards[j],N);
@@ -401,9 +401,9 @@ float getPopulationDist(QSVector & boards, int N)
 	return pop_dist;
 }
 
-float catchLocalOptima(QSVector & boards, int N)
+double catchLocalOptima(QSVector & boards, int N)
 {
-	float res = getVariance(boards, N);
+	double res = getVariance(boards, N);
 	cout << "-D- var indicator :\n" << res << "\n" << endl;
 	cout << "ahello " << QScount << " - " << QSHIMSHON << endl;
 	if (res < QSHIMSHON) {
@@ -424,5 +424,5 @@ float catchLocalOptima(QSVector & boards, int N)
 		}
 		--QYcount;
 	}
-	return 0.0f;
+	return 0.0;
 }

@@ -263,9 +263,9 @@ int getGenDist(ga_struct & first, ga_struct & second)
 	return count;
 }
 
-float getAverage(ga_vector & all_pop)
+double getAverage(ga_vector & all_pop)
 {
-	float average = 0.0f;
+	double average = 0.0;
 	for ( int i = 0 ; i < GA_POPSIZE ; i++ ) {
 		average += all_pop[i].fitness;
 	}
@@ -273,10 +273,10 @@ float getAverage(ga_vector & all_pop)
 	return average;
 }
 
-float getVariance(ga_vector &all_pop)
+double getVariance(ga_vector &all_pop)
 {
-	float average = getAverage(all_pop);
-	float variance = 0.0f;
+	double average = getAverage(all_pop);
+	double variance = 0.0;
 	for (int i = 0; i < GA_POPSIZE; i++) {
 		variance += (all_pop[i].fitness - average)*(all_pop[i].fitness - average);
 	}
@@ -284,9 +284,9 @@ float getVariance(ga_vector &all_pop)
 	return variance;
 }
 
-float getPopulationDist(ga_vector & all_pop)
+double getPopulationDist(ga_vector & all_pop)
 {
-	float pop_dist = 0.0f;
+	double pop_dist = 0.0;
 	for (int i = 0; i < GA_POPSIZE; i++) {
 		for (int j = i+1; j < GA_POPSIZE; j++) {
 			pop_dist += getGenDist(all_pop[i], all_pop[j]);
@@ -298,7 +298,7 @@ float getPopulationDist(ga_vector & all_pop)
 
 int catchLocalOptima(ga_vector & all_pop)
 {
-	float res = getVariance(all_pop);
+	double res = getVariance(all_pop);
 	cout << "-D- var indicator :\n" << res << "\n" << endl;
 	if (res < SHIMSHON) {
 		if (Scount == 0) {

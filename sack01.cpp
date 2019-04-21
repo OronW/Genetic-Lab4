@@ -1,9 +1,15 @@
 #include "sack01.h"
 #include "OtherProb.h"
 
-#define SACK_POPULATION 2048
+#define SACK_POPULATION 1000
 #define SACK_ELITISIM 0.10f
-#define SACK_MUTATION_RATE 25
+#define SACK_MUTATION_RATE 50
+#define KLOST	10000
+#define KSHIMSHON 22000
+#define KYOVAV 1.8
+
+int KScount;
+int KYcount;
 
 
 
@@ -186,6 +192,90 @@ int getMinRatioIndex(sackStruct &sack, itemVector &items) {
 	return index;
 }
 
+int getSckDist(sackStruct & first, sackStruct & second)
+{
+	int i = 0, count = 0;
+	while (i < first.items.size()) {
+		if (first.items[i] != second.items[i]) {
+			count++;
+		}
+		i++;
+	}
+	return count;
+}
+
+int getAverage(sackVector & population)
+{
+	int average = 0;
+	for (int i = 0; i < population.size(); i++) {
+		average += population[i].fitness;
+	}
+	average = average / population.size();
+	return average;
+}
+
+double getVariance(sackVector & population)
+{
+	int average = getAverage(population);
+	cout << "avarage is " << average << endl;
+	double variance = 0.0;
+	int N = population.size();
+	int min = 0, max = 0, under = 0, over = 0;
+	for (int i = 0; i < N; i++) {
+		variance += (population[i].fitness - average)*(population[i].fitness - average);
+		min = (population[i].fitness < min) ? population[i].fitness : min;
+		max = (population[i].fitness > max) ? population[i].fitness : max;
+		if (population[i].fitness <= average) {
+			++under;
+		}
+		else {
+			++over;
+		}
+	}
+	variance = variance / N;
+	cout << "min is - " << min << "\tmax is - " << max << endl;
+	cout << "under is - " << under << "\tover is - " << over << endl;
+	cout << "var is - " << variance << endl;
+	return variance;
+}
+
+double getPopulationDist(sackVector & population)
+{
+	double pop_dist = 0.0;
+	int N = population.size();
+	for (int i = 0; i < N; i++) {
+		for (int j = i + 1; j < N; j++) {
+			pop_dist += getSckDist(population[i], population[j]);
+		}
+	}
+	pop_dist = pop_dist / (N * N);
+	return pop_dist;
+}
+
+int catchLocalOptima(sackVector & population, int opt)
+{
+	int N = population.size();
+	double res = getVariance(population);
+	cout << "-D- var indicator :" << abs(opt - res) << "\topt is " << opt << endl;
+	if (abs(opt - res) < KSHIMSHON) {
+		if (KScount == 0) {
+			cout << "-E- LOCAL OPTIMA SIGNAL DETECTED (by variance)" << endl;
+			return 1;
+		}
+		--KScount;
+	}
+	res = getPopulationDist(population);
+	cout << "-D- Dist indicator :" << res << "\n" << endl;
+	if (res < KYOVAV) {
+		if (KYcount == 0) {
+			cout << "-E- LOCAL OPTIMA SIGNAL DETECTED (by stupid hamming distance)" << endl;
+			return 1;
+		}
+		--KYcount;
+	}
+	return 0;
+}
+
 
 void mutateSack(sackStruct &sack, itemVector &items) {
 	int N = sack.items.size();{
@@ -250,9 +340,10 @@ bool solveSack(int problem, int itr, int cross_type) {
 	Prob p = getProbl(problem);
 	int Opt = p.max_value;
 	bool success = false;
-
+	KScount=5;
+	KYcount=5;
 	init_sack01(sack01, items, p);
-
+	
 
 	clock_t start = clock();
 
@@ -261,7 +352,7 @@ bool solveSack(int problem, int itr, int cross_type) {
 		sortMaximumPrice(sack01);
 		string best;
 		sack2str(sack01[0], best);
-		cout << "Best: " << best << "  valueue:  " << sack01[0].fitness << endl;
+		cout << "Best: " << best << "  value:  " << sack01[0].fitness << endl;
 
 
 		if (sack01[0].fitness == Opt) {	//test if worked
@@ -270,6 +361,12 @@ bool solveSack(int problem, int itr, int cross_type) {
 		}
 
 		mateSackStruct(sack01, items, cross_type);	//else...
+
+		//if (abs(Opt - sack01[0].fitness) < KLOST) {
+			if (catchLocalOptima(sack01,Opt)) {
+				break;
+			}
+		//}
 	}
 
 	double ticks = clock() - start;
@@ -282,7 +379,7 @@ bool solveSack(int problem, int itr, int cross_type) {
 
 
 
-	cout << "****Statistics for sackStructsack Problem " << problem << "****" << endl;
+	cout << "****Statistics for sack Problem " << problem << "****" << endl;
 	cout << "Total Time: " << time << endl;
 	cout << "Total CPU ticks: " << ticks << endl;
 	cout << "Total iterations: " << i << endl;
