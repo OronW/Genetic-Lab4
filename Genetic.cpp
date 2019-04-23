@@ -19,6 +19,10 @@ vector<double> avg_fitness;
 vector<double> std_fitness;
 int GA_POPSIZE;
 
+int lastBest = 0;
+int currentBest = 0;
+
+
 
 int getTotalFitness(ga_vector &all_pop) {
 	int sum = 0;
@@ -436,6 +440,7 @@ void mate(ga_vector &all_pop, ga_vector &buffer, int cross_type, double mutation
 	int tsize = TARGET.size(), spos, i1, i2;
 
 	elitism(all_pop, buffer, esize);
+	
 
 	// Mate the rest
 	for (int i = esize; i<GA_POPSIZE; i++) {
@@ -443,19 +448,30 @@ void mate(ga_vector &all_pop, ga_vector &buffer, int cross_type, double mutation
 		i2 = rand() % (GA_POPSIZE / 2);
 		spos = rand() % tsize;
 
+		bool flag = false;
+		
 		if (cross_type==1)	//siungle point
 			buffer[i].str = all_pop[i1].str.substr(0, spos) + all_pop[i2].str.substr(spos, tsize - spos);
 		else if (cross_type==2)	// uniform
 			buffer[i].str = uniform_cross(all_pop[i1].str, all_pop[i2].str);
-		else if (cross_type == 3)	//smart
-			buffer[i].str = smartXbreed(all_pop[i1].str, all_pop[i2].str, all_pop[i1].fitness, all_pop[i2].fitness);
+
 		else
 		{
 			cout << "mate error: unknown cross type" << endl;
 			return;
 		}
 
-		if (rand() < mutation_rate) mutate(buffer[i]);
+		//if (rand() < mutation_rate) mutate(buffer[i]);
+		
+		//<ORON>
+		if ((abs(currentBest - lastBest) < 1) && (flag == false))
+		{
+			mutate(buffer[i]);
+			//cout << "*******************************************" << endl;
+			//cout << "currentBest: " << currentBest << "  lastBest: " << lastBest << endl;
+			//cout << "*******************************************"<< endl;
+			flag = true;
+		}
 	}
 }
 
@@ -463,6 +479,10 @@ void mate(ga_vector &all_pop, ga_vector &buffer, int cross_type, double mutation
 inline void printResOfBest(ga_vector &gav)
 {
 	cout << "Best: " << gav[0].str << " (" << gav[0].fitness << ")" << endl;
+
+	lastBest = currentBest;
+	currentBest = gav[0].fitness;
+
 }
 
 inline void printStatOf()
