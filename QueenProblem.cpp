@@ -426,3 +426,26 @@ double catchLocalOptima(QSVector & boards, int N)
 	}
 	return 0.0;
 }
+
+int randomImmigrants(QSVector & boards, int N)
+{
+	//int immigration_rate = (rand() % 50);
+	int immigration_rate = 80;
+	int square;
+	cout << "-D- number of immigration rate is - " << immigration_rate << endl;
+	int immigrates = floor((immigration_rate * boards.size()) / 100);
+	cout << "-D- number of immigrations is - " << immigrates << endl;
+	for (int i = 0; i < immigrates; ++i) {
+		int kidnap = rand() % boards.size();
+		//cout << "-D- kidnap is - " << kidnap << endl;
+		string shabah = "";
+
+		for (int j = 0; j < N; j++) {
+			square = rand() % N;
+			board.str += square;
+		}
+
+		all_pop[kidnap].str = shabah;
+	}
+	return 0;
+}

@@ -319,6 +319,27 @@ int catchLocalOptima(ga_vector & all_pop)
 	return 0;
 }
 
+int randomImmigrants(ga_vector & all_pop)
+{
+	//int immigration_rate = (rand() % 50);
+	int immigration_rate = 80;
+	cout << "-D- number of immigration rate is - " << immigration_rate << endl;
+	int immigrates = floor((immigration_rate * GA_POPSIZE)/100);
+	int tsize = TARGET.size();
+	cout << "-D- number of immigrations is - " << immigrates << endl;
+	for (int i = 0; i < immigrates; ++i) {
+		int kidnap = rand() % GA_POPSIZE;
+		//cout << "-D- kidnap is - " << kidnap << endl;
+		string shabah= "";
+
+		for (int j = 0; j < tsize; j++)
+			shabah += (rand() % 95) + 32;
+
+		all_pop[kidnap].str=shabah;
+	}
+	return 0;
+}
+
 
 
 void initAllPop(ga_vector &all_pop, ga_vector &buffer)
@@ -495,7 +516,9 @@ bool solveUsingGen(int N, int itr, int h, int cross_type, double mutation_rate, 
 		}
 		if ((*all_pop)[0].fitness < LOST) {
 			if (catchLocalOptima(*all_pop)) {
-				break;
+				randomImmigrants(*all_pop);
+				Scount = 5;
+				Ycount = 5;
 			}
 		}
 

@@ -70,7 +70,7 @@ int main()
 
 	//testQueensGA(5, 50, 1, 2);
 
-	//testPop(10, 2048, 1000, 1, 1, 0.25, 1);
+	testPop(1, 2048, 1000, 1, 1, 0.25, 1);
 	//solveUsingGen(2048, 1000, 1, 2, 0.25, 1);
 		//			(popSize,	iterations	,crossbreed		,Heuristic,		muatation,	selection)
 		//									1-single,		1-Manhattan,	rate,		1-eltism	
@@ -85,9 +85,9 @@ int main()
 
 	//solveQueensConflict(1000, 20000);
 		//			(popSize,  iteration)
-	for (int i = 0; i < 8; i++) {
-		solveSack(i, 500, 1);
-	}
+	//for (int i = 0; i < 8; i++) {
+	//	solveSack(i, 500, 1);
+	//}
 		//	(poblem_num ,iteration , cross)
 
 

@@ -59,3 +59,4 @@ double getAverage(ga_vector &all_pop);
 double getVariance(ga_vector &all_pop);
 double getPopulationDist(ga_vector &all_pop);
 int catchLocalOptima(ga_vector &all_pop);
+int randomImmigrants(ga_vector &all_pop);

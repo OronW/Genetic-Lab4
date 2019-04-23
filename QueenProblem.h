@@ -49,3 +49,4 @@ double getAverage(QSVector &boards, int N);
 double getVariance(QSVector &boards, int N);
 double getPopulationDist(QSVector &boards, int N);
 double catchLocalOptima(QSVector &boards, int N);
+int randomImmigrants(QSVector &boards, int N);
