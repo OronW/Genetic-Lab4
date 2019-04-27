@@ -30,6 +30,12 @@
     <ClCompile Include="sack01.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="BaldwinEffect.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Alec.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Genetic.h">
@@ -42,6 +48,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="sack01.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BaldwinEffect.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Alec.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

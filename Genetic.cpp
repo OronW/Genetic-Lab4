@@ -327,10 +327,10 @@ int randomImmigrants(ga_vector & all_pop)
 {
 	//int immigration_rate = (rand() % 50);
 	int immigration_rate = 80;
-	cout << "-D- number of immigration rate is - " << immigration_rate << endl;
+	cout << "-D- immigration rate is - " << immigration_rate << endl;
 	int immigrates = floor((immigration_rate * GA_POPSIZE)/100);
 	int tsize = TARGET.size();
-	cout << "-D- number of immigrations is - " << immigrates << endl;
+	cout << "-D- number of immigrants is - " << immigrates << endl;
 	for (int i = 0; i < immigrates; ++i) {
 		int kidnap = rand() % GA_POPSIZE;
 		//cout << "-D- kidnap is - " << kidnap << endl;

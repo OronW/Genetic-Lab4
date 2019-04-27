@@ -276,6 +276,25 @@ int catchLocalOptima(sackVector & population, int opt)
 	return 0;
 }
 
+int randomImmigrants(sackVector & population)
+{
+	//int immigration_rate = (rand() % 50);
+	int immigration_rate = 80;
+	int N = population.size();
+	cout << "-D- immigration rate is - " << immigration_rate << endl;
+	int immigrates = floor((immigration_rate * N) / 100);
+	cout << "-D- number of immigrants is - " << immigrates << endl;
+	for (int i = 0; i < immigrates; ++i) {
+		int kidnap = rand() % N;
+		//cout << "-D- kidnap is - " << kidnap << endl;
+		string shabah = "";
+
+		for (int j = 0; j < population[kidnap].avail; j++) 
+			population[kidnap].items[j] = (rand()%100 <50)? '1':'0';
+	}
+	return 0;
+}
+
 
 void mutateSack(sackStruct &sack, itemVector &items) {
 	int N = sack.items.size();{

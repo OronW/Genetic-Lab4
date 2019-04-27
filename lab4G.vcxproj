@@ -99,6 +99,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Alec.cpp" />
+    <ClCompile Include="BaldwinEffect.cpp" />
     <ClCompile Include="Genetic.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="OtherProb.cpp" />
@@ -106,6 +108,8 @@
     <ClCompile Include="sack01.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Alec.h" />
+    <ClInclude Include="BaldwinEffect.h" />
     <ClInclude Include="Genetic.h" />
     <ClInclude Include="OtherProb.h" />
     <ClInclude Include="QueenProblem.h" />

@@ -282,11 +282,13 @@ bool solveQueensProb(int N, int itr, int cross_type, int mutate_type) {
 			break;
 		}
 
-		//if ((Boards)[0].fitness < QLOST) {
-		//	if (catchLocalOptima(Boards,N)) {
-		//		break;
-		//	}
-		//}
+		if ((Boards)[0].fitness < QLOST) {
+			if (catchLocalOptima(Boards,N)) {
+				randomImmigrants(Boards, N);
+				QScount = 5;
+				QYcount = 5;
+			}
+		}
 
 		//Problem not solved.
 		BoardMating(Boards, buffer, ELITE, cross_type, mutate_type);
@@ -432,9 +434,9 @@ int randomImmigrants(QSVector & boards, int N)
 	//int immigration_rate = (rand() % 50);
 	int immigration_rate = 80;
 	int square;
-	cout << "-D- number of immigration rate is - " << immigration_rate << endl;
+	cout << "-D- immigration rate is - " << immigration_rate << endl;
 	int immigrates = floor((immigration_rate * boards.size()) / 100);
-	cout << "-D- number of immigrations is - " << immigrates << endl;
+	cout << "-D- number of immigrants is - " << immigrates << endl;
 	for (int i = 0; i < immigrates; ++i) {
 		int kidnap = rand() % boards.size();
 		//cout << "-D- kidnap is - " << kidnap << endl;
@@ -442,10 +444,10 @@ int randomImmigrants(QSVector & boards, int N)
 
 		for (int j = 0; j < N; j++) {
 			square = rand() % N;
-			board.str += square;
+			shabah += square;
 		}
 
-		all_pop[kidnap].str = shabah;
+		boards[kidnap].str = shabah;
 	}
 	return 0;
 }

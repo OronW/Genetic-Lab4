@@ -68,9 +68,9 @@ int main()
 	
 	startElapsed = clock();
 
-	//testQueensGA(5, 50, 1, 2);
+	testQueensGA(5, 20, 1, 1);
 
-	testPop(1, 2048, 1000, 1, 1, 0.25, 1);
+	//testPop(1, 2048, 1000, 1, 1, 0.25, 1);
 	//solveUsingGen(2048, 1000, 1, 2, 0.25, 1);
 		//			(popSize,	iterations	,crossbreed		,Heuristic,		muatation,	selection)
 		//									1-single,		1-Manhattan,	rate,		1-eltism	

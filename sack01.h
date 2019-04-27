@@ -61,3 +61,4 @@ int getAverage(sackVector &population);
 double getVariance(sackVector &population);
 double getPopulationDist(sackVector &population);
 int catchLocalOptima(sackVector &population, int opt);
+int randomImmigrants(sackVector &population);
