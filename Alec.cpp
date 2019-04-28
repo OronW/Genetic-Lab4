@@ -27,11 +27,11 @@ Alec::Alec(int _name, int _len, double _set_rate)
 	for (; i < _len * _set_rate; ++i) {
 		gen.push_back(2);
 	}
-
 	for (; i < _len; ++i) {
 		int value = rand() % 2;
 		gen.push_back(value);
 	}
+	random_shuffle(gen.begin(), gen.end());
 }
 
 
@@ -63,8 +63,6 @@ double Alec::calcFitness()
 		}
 		return 1;
 	}
-
-	return 0.;
 }
 
 Alec::~Alec()
@@ -104,6 +102,7 @@ Alec* sampleFunc(map<Alec*, double> map_btoFit, vector<Alec*> oFit, double sum_b
 	}
 	else {
 		double threshold = ((double)rand() / ((double)RAND_MAX + 1)) * sum_btoFit;
+		cout << "threshold is " << threshold << endl;
 		double sumFit = 0.;
 		map< Alec*, double >::iterator res = map_btoFit.begin();
 
@@ -113,7 +112,6 @@ Alec* sampleFunc(map<Alec*, double> map_btoFit, vector<Alec*> oFit, double sum_b
 				break;
 			}
 		}
-
 		return (res->first);
 	}
 }
@@ -129,8 +127,9 @@ Alec* mate(int _name, Alec &first, Alec &second)
 		gen_new.push_back(first.getGen()[i]);
 	}
 	for (; i < gsize; i++) {
-		gen_new[i] = second.getGen()[i];
+		gen_new.push_back(second.getGen()[i]);
 	}
 
+	random_shuffle(gen_new.begin(), gen_new.end());
 	return new Alec(_name, gen_new);
 }
