@@ -18,7 +18,7 @@ private:
 	vector<int> gen;
 	int attempts = 1000;
 public:
-	vector<int> getGen();
+	vector<int> getGen() const;
 	Alec(Alec &other);
 	Alec(int _name, vector<int> _gen);
 	Alec(int _name, int _len, double _set_rate);
@@ -27,7 +27,7 @@ public:
 
 };
 
-bool operator == (Alec &a1, Alec &a2);
+bool operator == (Alec const &a1, Alec const &a2);
 int* calcStat(vector<int> gen);
 Alec* sampleFunc(map<Alec*, double> map_btoFit, vector<Alec*> oFit, double sum_btoFit);
 Alec* mate(int _name, Alec & first, Alec &second);

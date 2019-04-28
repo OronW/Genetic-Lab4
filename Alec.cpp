@@ -2,7 +2,7 @@
 #define REWARD 19
 
 
-vector<int> Alec::getGen()
+vector<int> Alec::getGen() const
 {
 	return gen;
 }
@@ -71,8 +71,9 @@ Alec::~Alec()
 {
 }
 
-bool operator==(Alec & _a1, Alec & _a2)
+bool operator==(Alec const & _a1, Alec const & _a2)
 {
+
 	int gsize = _a1.getGen().size();
 	vector<int> a1 = _a1.getGen();
 	vector<int> a2 = _a2.getGen();

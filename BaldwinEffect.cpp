@@ -19,11 +19,11 @@ string printSqequence(vector<int> gen)
 	return s;
 }
 
-bool checkIfEqual(vector<Alec> all_pop)
+bool checkIfEqual(vector<Alec*> all_pop)
 {
-	Alec* first = new Alec(all_pop[0]);
-	for (vector<Alec>::iterator a = all_pop.begin(); a != all_pop.end(); ++a) {
-		if (*first == *a) {
+	Alec * first = new Alec(*(all_pop[0]));
+	for (vector<Alec*>::iterator a = all_pop.begin(); a != all_pop.end(); ++a) {
+		if (*first == **a) {
 			return false;
 		}
 	}
@@ -31,11 +31,11 @@ bool checkIfEqual(vector<Alec> all_pop)
 	return true;
 }
 
-void getGenStats(vector<Alec> all_pop, double * res)
+void getGenStats(vector<Alec*> all_pop, double * res)
 {
 	fill(res, res + sizeof(res), 0);
-	for (vector<Alec>::iterator a = all_pop.begin(); a != all_pop.end(); ++a) {
-		int * stats = calcStat((*a).getGen());
+	for (vector<Alec*>::iterator a = all_pop.begin(); a != all_pop.end(); ++a) {
+		int * stats = calcStat((**a).getGen());
 		res[0] += stats[0];
 		res[1] += stats[1];
 		res[2] += stats[2];
