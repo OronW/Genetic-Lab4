@@ -102,7 +102,6 @@ Alec* sampleFunc(map<Alec*, double> map_btoFit, vector<Alec*> oFit, double sum_b
 	}
 	else {
 		double threshold = ((double)rand() / ((double)RAND_MAX + 1)) * sum_btoFit;
-		cout << "threshold is " << threshold << endl;
 		double sumFit = 0.;
 		map< Alec*, double >::iterator res = map_btoFit.begin();
 
@@ -111,6 +110,8 @@ Alec* sampleFunc(map<Alec*, double> map_btoFit, vector<Alec*> oFit, double sum_b
 			if (sumFit >= threshold) {
 				break;
 			}
+			++res;
+
 		}
 		return (res->first);
 	}
