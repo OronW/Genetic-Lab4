@@ -11,6 +11,9 @@
 int KScount;
 int KYcount;
 
+int currentBestSack = 0;
+int lastBestSack = 0;
+
 
 
 void init_items(itemVector &items, Prob &p) {
@@ -126,6 +129,8 @@ void mateSackStruct(sackVector &sacks, itemVector &items, int cross_type)
 	int end = SACK_POPULATION - start;
 	int i1, i2;
 
+	bool flag = false;
+
 	for (int i = start; i < end; i++) {
 		i1 = rand() % (SACK_POPULATION / 2);
 		i2 = rand() % (SACK_POPULATION / 2);
@@ -135,8 +140,14 @@ void mateSackStruct(sackVector &sacks, itemVector &items, int cross_type)
 		sacks[i].items = str;
 
 	
-		if (rand() % 100 < SACK_MUTATION_RATE)
+		/*if (rand() % 100 < SACK_MUTATION_RATE)
+			mutateSack(sacks[i], items);*/
+		if ((abs(currentBestSack - lastBestSack) < 50000) && (flag == false))
+		{
 			mutateSack(sacks[i], items);
+			cout << "******************************" << endl;
+			flag = true;
+		}
 
 		
 		sacks[i].fitness = 0;	
@@ -309,9 +320,15 @@ void mutateSack(sackStruct &sack, itemVector &items) {
 
 
 void calcSackFits(sackVector &sacks, itemVector &items) {
+	
+	lastBestSack = currentBestSack;
+	currentBestSack = 0;
+	
 	for (unsigned int i = 0; i < sacks.size(); i++) {
 		sacks[i].fitness = maxValueHueristic(sacks[i], items);
+		currentBestSack += sacks[i].fitness;
 	}
+
 }
 
 
@@ -351,7 +368,7 @@ bool solveSack(int problem, int itr, int cross_type) {
 		cout << "Invalueid problem id, can be 0-7" << endl;
 		return false;
 	}
-	cout << "Solving sackStructsack problem: " << problem << endl;
+	cout << "Solving sack problem: " << problem << endl;
 
 	sackVector sack01;
 	itemVector items;
@@ -386,6 +403,7 @@ bool solveSack(int problem, int itr, int cross_type) {
 				break;
 			}
 		//}
+
 	}
 
 	double ticks = clock() - start;

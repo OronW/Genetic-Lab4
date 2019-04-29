@@ -68,7 +68,7 @@ int main()
 	
 	startElapsed = clock();
 
-	testQueensGA(5, 20, 1, 1);
+	//testQueensGA(5, 20, 1, 1);
 
 	//testPop(1, 2048, 1000, 1, 1, 0.25, 1);
 	//solveUsingGen(2048, 1000, 1, 2, 0.25, 1);
@@ -85,9 +85,9 @@ int main()
 
 	//solveQueensConflict(1000, 20000);
 		//			(popSize,  iteration)
-	//for (int i = 0; i < 8; i++) {
-	//	solveSack(i, 500, 1);
-	//}
+	for (int i = 0; i < 8; i++) {
+		solveSack(i, 500, 1);
+	}
 		//	(poblem_num ,iteration , cross)
 
 
