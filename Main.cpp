@@ -14,6 +14,8 @@ int main(int argc, char* argv[])
 #include "QueenProblem.h"
 #include "OtherProb.h"
 #include "sack01.h"
+#include "BaldwinEffect.h"
+#include "Alec.h"
 #include <ctime>
 
 void testQueensGA(int epoch, int N, int cross_type = 1, int mutatation_type = 2) {
@@ -67,7 +69,7 @@ int main()
 	double elapsedDuration;
 	
 	startElapsed = clock();
-
+	solveBaldwin();
 	//testQueensGA(5, 20, 1, 1);
 
 	//testPop(1, 2048, 1000, 1, 1, 0.25, 1);
@@ -85,9 +87,9 @@ int main()
 
 	//solveQueensConflict(1000, 20000);
 		//			(popSize,  iteration)
-	for (int i = 0; i < 8; i++) {
-		solveSack(i, 500, 1);
-	}
+	//for (int i = 0; i < 8; i++) {
+	//	solveSack(i, 500, 1);
+	//}
 		//	(poblem_num ,iteration , cross)
 
 

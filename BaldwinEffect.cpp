@@ -33,7 +33,7 @@ bool checkIfEqual(vector<Alec*> all_pop)
 
 void getGenStats(vector<Alec*> all_pop, double * res)
 {
-	fill(res, res + sizeof(res), 0);
+	fill(res, res + sizeof(res)-1, 0);
 	for (vector<Alec*>::iterator a = all_pop.begin(); a != all_pop.end(); ++a) {
 		int * stats = calcStat((**a).getGen());
 		res[0] += stats[0];
@@ -48,11 +48,9 @@ void getGenStats(vector<Alec*> all_pop, double * res)
 
 bool solveBaldwin(int samples, int itr, int lenght, double set_rate)
 {
-	int fixed = floor(lenght * set_rate);
-
 	vector<Alec*> all_pop;
 	for (int i = 0; i < samples; i++) {
-		all_pop.push_back(new Alec(i, lenght, fixed));
+		all_pop.push_back(new Alec(i, lenght, set_rate));
 	}
 
 	int generation = 0;
@@ -62,7 +60,7 @@ bool solveBaldwin(int samples, int itr, int lenght, double set_rate)
 
 	cout << "Timestamp: " << timestamp << endl;
 	while (!checkIfEqual(all_pop)) {
-		cout << "Generation #" << generation << ":\t0 -> " << statistics[0] << "%\t1 -> " << statistics[1] << "%\t? -> " << statistics[2] << endl;
+		cout << "Generation #" << generation << ":\t0 -> " << statistics[0] << "%\t1 -> " << statistics[1] << "%\t? -> " << statistics[2] << "%"<<endl;
 		map <Alec*, double> map_btoFit;
 		vector<Alec*> oFit;
 		double sum_btoFit = 0.;
@@ -77,18 +75,18 @@ bool solveBaldwin(int samples, int itr, int lenght, double set_rate)
 				oFit.push_back(*a);
 			}
 		}
-
 		vector<Alec*> mix;
 		for (int i = 0; i < samples; i++) {
 			Alec * samp1 = sampleFunc(map_btoFit, oFit, sum_btoFit);
+
 			Alec* samp2 = sampleFunc(map_btoFit, oFit, sum_btoFit);
 			Alec* newSamp = mate(i, *samp1, *samp2);
 			mix.push_back(newSamp);
 		}
 		all_pop = mix;
-		
+
 		getGenStats(all_pop,statistics);
-		++generation;
+		generation+=1;
 	}
 	cout << "Done!! Population is now fixated.\nFinal Gene - " << printSqequence((*all_pop[0]).getGen()) <<
 		"\nStatistics:\t0 -> " << statistics[0] << "%\t1 -> " << statistics[1] << "%\t ? -> " << statistics[2] << "%"<<endl;
