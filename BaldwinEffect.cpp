@@ -22,8 +22,8 @@ string printSqequence(vector<int> gen)
 bool checkIfEqual(vector<Alec*> all_pop)
 {
 	Alec * first = new Alec(*(all_pop[0]));
-	for (vector<Alec*>::iterator a = all_pop.begin(); a != all_pop.end(); ++a) {
-		if (*first == **a) {
+	for (vector<Alec*>::iterator a = all_pop.begin() +1 ; a != all_pop.end(); ++a) {
+		if (!((*first) == (**a))) {
 			return false;
 		}
 	}
@@ -60,7 +60,7 @@ bool solveBaldwin(int samples, int itr, int lenght, double set_rate)
 
 	cout << "Timestamp: " << timestamp << endl;
 	while (!checkIfEqual(all_pop)) {
-		cout << "Generation #" << generation << ":\t0 -> " << statistics[0] << "%\t1 -> " << statistics[1] << "%\t? -> " << statistics[2] << "%"<<endl;
+		cout << "Generation #" << generation << ":\t0 -> " << statistics[0]*100 << "%\t1 -> " << statistics[1]*100 << "%\t? -> " << statistics[2]*100 << "%"<<endl;
 		map <Alec*, double> map_btoFit;
 		vector<Alec*> oFit;
 		double sum_btoFit = 0.;
