@@ -18,6 +18,125 @@ int main(int argc, char* argv[])
 #include "Alec.h"
 #include <ctime>
 
+void init_gen() {
+	int N;
+	int h;
+	int cross;
+	double mutate;
+	int selection;
+
+	cout << "Please enter the following data - " << endl;
+	cout << "Population:";
+	cin >> N;
+	cout << "Heuristic - " << endl;
+	cout << "1 Distance" << endl;
+	cout << "2 BE" << endl;
+	cin >> h;
+	cout << "Cross -" << endl;
+	cout << "1 Single point" << endl;
+	cout << "2 Uniform" << endl;
+	cin >> cross;
+	cout << "Mutation rate (between 0 and 1) -";
+	cin >> mutate;
+	cout << "Selection -" << endl;
+	cout << "1 Elitism" << endl;
+	cout << "2 SUS" << endl;
+	cout << "3 Tournament" << endl;
+	cin >> selection;
+
+	solveUsingGen(N, 1000, cross, h, mutate, selection);
+		//			(popSize,	iterations	,crossbreed		,Heuristic,		muatation,	selection)
+		//									1-single,		1-Manhattan,	rate,		1-eltism	
+		//									2-Unifrm,		2-BE						2-SUS
+		//									3-smrt										3-Tour
+
+}
+
+void init_queens() {
+	int N;
+	int selection;
+	int cross;
+	int mutate;
+
+	cout << "Please enter the following data - " << endl;
+	cout << "Board size -";
+	cin >> N;
+	cout << "Cross-" << endl;
+	cout << "1 Single Point" << endl;
+	cout << "2 Uniform" << endl;
+	cin >> cross;
+	cout << "Mutation type -" << endl;
+	cout << "1 Randomly change position" << endl;
+	cout << "2 Choose randomly minimal conflict" << endl;
+	cin >> mutate;
+
+	solveQueensProb(N, 500, cross, mutate);
+		//		(board_size		,iterations,	crossbreed,		muatation)
+		//										1-single,		type	
+		//										2-Unifrm						
+
+}
+
+void init_sack() {
+	int N;
+	int cross;
+
+	cout << "Please enter the following data - " << endl;
+	cout << "Problem number (0-7) -";
+	cin >> N;
+	cout << "Cross -" << endl;
+	cout << "1 Single Point" << endl;
+	cout << "2 Uniform" << endl;
+	cin >> cross;
+
+	solveSack(N, 500, cross);
+	//	(poblem_num ,iteration , cross)
+}
+
+void init_qls() {
+	int N;
+
+	cout << "Please enter the following data - " << endl;
+	cout << "Board size:";
+	cin >> N;
+
+	solveQueensConflict(N, 10000);
+	//			(board_size,  iteration)
+}
+
+void choose_prob() {
+	int input;
+	cout << "Please choose:" << endl;
+	cout << "1 Genetics" << endl;
+	cout << "2 N queens" << endl;
+	cout << "3 N queens - local search" << endl;
+	cout << "4 Sack" << endl;
+	cout << "5 Baldwin" << endl;
+	cin >> input;
+	if (input == 1)
+		init_gen();
+	else if (input == 2)
+		init_queens();
+
+	else if (input == 3)
+		init_qls();
+
+	else if (input == 4)
+		init_sack();
+	else if (input == 5) {
+		cout << "Running the configurations as requested in the assignment: " << endl;
+		cout << "1000 samples" << endl;
+		cout << "1000 iterations" << endl;
+		cout << "20 lenght" << endl;
+		cout << "25% - 1 , 25% - 0 , 50% - ?" << endl;
+		solveBaldwin();
+	}
+	else {
+		cout << "Invalid option" << endl;
+		return;
+	}
+}
+
 void testQueensGA(int epoch, int N, int cross_type = 1, int mutatation_type = 2) {
 	double time;
 	int success = 0;
@@ -69,7 +188,8 @@ int main()
 	double elapsedDuration;
 	
 	startElapsed = clock();
-	solveBaldwin();
+	choose_prob();
+	//solveBaldwin();
 	//testQueensGA(5, 20, 1, 1);
 
 	//testPop(1, 2048, 1000, 1, 1, 0.25, 1);
@@ -85,8 +205,8 @@ int main()
 		//										2-Unifrm						
 
 
-	//solveQueensConflict(1000, 20000);
-		//			(popSize,  iteration)
+	//solveQueensConflict(8, 20000);
+		//			(board_size,  iteration)
 	//for (int i = 0; i < 8; i++) {
 	//	solveSack(i, 500, 1);
 	//}
