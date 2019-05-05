@@ -133,7 +133,6 @@ void choose_prob() {
 	}
 	else {
 		cout << "Invalid option" << endl;
-		return;
 	}
 }
 
